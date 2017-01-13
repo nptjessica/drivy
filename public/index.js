@@ -164,7 +164,21 @@ var rentalModifications = [{
   'rentalId': '3-sa-92',
   'pickupDate': '2015-12-05'
 }];
-var rentalPrice='';
+
+//Ex1
+
+function rentalPrice (){
+    for(var i=0; i< rentals.length;i++){
+        var pickupDate = new Date(rentals[i]['pickupDate']);
+        var returnDate = new Date(rentals[i]['returnDate']);
+        var time = (pickupDate.getDate - returnDate.getDate ) * cars[i]['pricePerDay'];
+        var distance = rentals[i]['distance'] * cars[i]['pricePerKm'];
+        var rentalPrice = time + distance;
+        rentals[i]['price'] = rentalPrice;
+    }
+}
+
+console.log(rentals[0]['price']);
 
 console.log(cars);
 console.log(rentals);
