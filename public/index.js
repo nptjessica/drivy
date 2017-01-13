@@ -164,7 +164,7 @@ var rentalModifications = [{
   'rentalId': '3-sa-92',
   'pickupDate': '2015-12-05'
 }];
-
+var rentalPrice='';
 
 console.log(cars);
 console.log(rentals);
