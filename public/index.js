@@ -165,22 +165,23 @@ var rentalModifications = [{
   'pickupDate': '2015-12-05'
 }];
 
-//Ex1
-
-function rentalPrice (){
-    for(var i=0; i< rentals.length;i++){
-        var pickupDate = new Date(rentals[i]['pickupDate']);
-        var returnDate = new Date(rentals[i]['returnDate']);
-        var time = (pickupDate.getDate - returnDate.getDate ) * cars[i]['pricePerDay'];
-        var distance = rentals[i]['distance'] * cars[i]['pricePerKm'];
-        var rentalPrice = time + distance;
-        rentals[i]['price'] = rentalPrice;
+//Exercice 1 - Euro-Kilometers
+function rentalPrice1(){
+    for(var i=0; i< cars.length;i++){
+        for(var j=0; j< rentals.length;j++){
+            var pickupDate = new Date(rentals[i]['pickupDate']);
+            var returnDate = new Date(rentals[i]['returnDate']);
+            var time = (returnDate.getDate() - pickupDate.getDate()+1 ) * cars[i]['pricePerDay'];
+            var distance = rentals[i]['distance'] * cars[i]['pricePerKm'];
+            var rentalPrice = time + distance;
+            rentals[i]['price'] = rentalPrice;
+        }
     }
 }
+rentalPrice1();
 
-console.log(rentals[0]['price']);
 
-console.log(cars);
+//console.log(cars);
 console.log(rentals);
-console.log(actors);
-console.log(rentalModifications);
+//console.log(actors);
+//console.log(rentalModifications);
