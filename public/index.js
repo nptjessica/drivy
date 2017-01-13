@@ -165,6 +165,7 @@ var rentalModifications = [{
   'pickupDate': '2015-12-05'
 }];
 
+
 console.log(cars);
 console.log(rentals);
 console.log(actors);
