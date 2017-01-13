@@ -169,9 +169,11 @@ var rentalModifications = [{
 function rentalPrice1(){
     for(var i=0; i< cars.length;i++){
         for(var j=0; j< rentals.length;j++){
-            var pickupDate = new Date(rentals[i]['pickupDate']);
+            //convert json data into javascript date before manipulating it
+            var pickupDate = new Date(rentals[i]['pickupDate']);            //rentals[i].pickupDate == rentals[i]['pickupDate']
             var returnDate = new Date(rentals[i]['returnDate']);
-            var time = (returnDate.getDate() - pickupDate.getDate()+1 ) * cars[i]['pricePerDay'];
+
+            var time = (returnDate.getDate() - pickupDate.getDate() + 1) * cars[i]['pricePerDay'];
             var distance = rentals[i]['distance'] * cars[i]['pricePerKm'];
             var rentalPrice = time + distance;
             rentals[i]['price'] = rentalPrice;
