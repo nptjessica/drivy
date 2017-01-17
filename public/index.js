@@ -172,7 +172,7 @@ function rentalPrice1(){
         var pickupDate = new Date(rentals[i].pickupDate);   //rentals[i].pickupDate == rentals[i]['pickupDate']
         var returnDate = new Date(rentals[i].returnDate);
 
-        //calculate the rental price
+        //calculate rental prices
         var time = (returnDate.getDate() - pickupDate.getDate() + 1) * cars[i].pricePerDay; //getDate() method return the day of the month
         var distance = rentals[i].distance * cars[i].pricePerKm;
         var rentalPrice = time + distance;
@@ -188,7 +188,7 @@ function rentalPrice2(){
         var pickupDate = new Date(rentals[i].pickupDate);
         var returnDate = new Date(rentals[i].returnDate);
 
-        //calculate the rental price
+        //calculate rental prices
         //now, it depends on the number of rental days
         var rentalTime = (returnDate.getDate() - pickupDate.getDate() + 1); //getDate() method return the day of the month
         //price per day decreases by 10% after 1 day
@@ -217,26 +217,55 @@ rentalPrice2();
 //Exercice 3 - Give me all your money
 function commissionPrice(){
     for(var i = 0; i < rentals.length; i++){
-        //calculate commission
+        //calculate commissions
         //Drivy take a 30% commission on the rental price
         var totalCommission = 0.3 * rentals[i].price;
 
         //commission is split into: insurance, roadside assisntance and drivy
-        //insurance is half of commission
+        //insurance has half of commission
         rentals[i].commission.insurance = totalCommission/2;
 
-        //roadside assistance is 1€ per day
+        //roadside assistance has 1€ per day
         //convert json data into javascript date before manipulating it
         var pickupDate = new Date(rentals[i].pickupDate);
         var returnDate = new Date(rentals[i].returnDate);
         var rentalTime = (returnDate.getDate() - pickupDate.getDate() + 1); //getDate() method return the day of the month
         rentals[i].commission.assistance = rentalTime;
 
-        //drivy is the rest of the commission
+        //drivy has the rest of the commission
         rentals[i].commission.drivy = totalCommission - (rentals[i].commission.insurance + rentals[i].commission.assistance);
     }
 }
 commissionPrice();
+
+
+//Exercice 4 - The famous deductible
+function optionDeductible(){
+    for(var i = 0; i < rentals.length; i++){
+        //convert json data into javascript date before manipulating it
+        var pickupDate = new Date(rentals[i].pickupDate);
+        var returnDate = new Date(rentals[i].returnDate);
+        var rentalTime = (returnDate.getDate() - pickupDate.getDate() + 1); //getDate() method return the day of the month
+
+        //when the driver chooses the deductible reduction option ('deductbleReduction': true)
+        if(rentals[i].options.deductibleReduction === true){
+        /* notice about "==" and "===" or the 'if' ocndition
+        "if(booleanValue == true)" will satisfy the 'if' statement for any truthy value of 'booleanValue' including true, any non-zero number, any non-empty string value, any object or array reference, etc...
+        because when you don't use  ===, javascript will use type-coercion to make the two values in the comparison have the same type and a lot of truthy values will coerce to true to match the condition.
+        On the other hand: "if(booleanValue === true)" will only satisfy the 'if' condition if 'booleanValue' is exactly equal to true. No other truthy value will satisfy it.
+        */
+            //calculate rental prices and drivy commissions with deductible option
+            //the driver is charged an additional 4€/day
+            var additionalPrice = 4 * rentalTime
+            rentals[i].price += additionalPrice;
+
+            //the additional charge goes to drivy, not to the car owner
+            rentals[i].commission.drivy += additionalPrice;
+        }
+    }
+
+}
+optionDeductible();
 
 //console.log(cars);
 console.log(rentals);
