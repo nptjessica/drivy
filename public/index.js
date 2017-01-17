@@ -167,21 +167,52 @@ var rentalModifications = [{
 
 //Exercice 1 - Euro-Kilometers
 function rentalPrice1(){
-    for(var i=0; i< cars.length;i++){
-        for(var j=0; j< rentals.length;j++){
-            //convert json data into javascript date before manipulating it
-            var pickupDate = new Date(rentals[i]['pickupDate']);            //rentals[i].pickupDate == rentals[i]['pickupDate']
-            var returnDate = new Date(rentals[i]['returnDate']);
+    for(var i=0; i< rentals.length;i++){
+        //convert json data into javascript date before manipulating it
+        var pickupDate = new Date(rentals[i].pickupDate);                                       //rentals[i].pickupDate == rentals[i]['pickupDate']
+        var returnDate = new Date(rentals[i].returnDate);
 
-            var time = (returnDate.getDate() - pickupDate.getDate() + 1) * cars[i]['pricePerDay'];
-            var distance = rentals[i]['distance'] * cars[i]['pricePerKm'];
-            var rentalPrice = time + distance;
-            rentals[i]['price'] = rentalPrice;
-        }
+        //calculate the rental price
+        var time = (returnDate.getDate() - pickupDate.getDate() + 1) * cars[i].pricePerDay;     //getDate() method return the day of the month
+        var distance = rentals[i].distance * cars[i].pricePerKm;
+        var rentalPrice = time + distance;
+        rentals[i].price = rentalPrice;
     }
 }
-rentalPrice1();
+//rentalPrice1();
 
+//Exercice 2 - Drive more, pay less
+function rentalPrice2(){
+    for(var i=0; i< rentals.length;i++){
+        //convert json data into javascript date before manipulating it
+        var pickupDate = new Date(rentals[i].pickupDate);
+        var returnDate = new Date(rentals[i].returnDate);
+
+        //calculate the rental price
+        //now, it depends on the number of rental days
+        var rentalTime = (returnDate.getDate() - pickupDate.getDate() + 1);
+        //price per day decreases by 10% after 1 day
+        if(rentalTime>=1 && rentalTime<4){
+            var newPricePerDay =  (1 - 0.10) * cars[i].pricePerDay;
+            var time = rentalTime * newPricePerDay;
+        }
+        //price per day decreases by 30% after 4 day
+        else if(rentalTime>=4 && rentalTime<10){
+            newPricePerDay =  (1 - 0.30) * cars[i].pricePerDay;
+            time = rentalTime * newPricePerDay;
+        }
+        //price per day decreases by 50% after 10 day
+        else if(rentalTime>=10){
+            newPricePerDay = (1 - 0.50) * cars[i].pricePerDay;
+            time = rentalTime * newPricePerDay;
+        }
+
+        var distance = rentals[i].distance * cars[i].pricePerKm;
+        var rentalPrice = time + distance;
+        rentals[i].price = rentalPrice;
+    }
+}
+rentalPrice2();
 
 //console.log(cars);
 console.log(rentals);
