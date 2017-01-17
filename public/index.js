@@ -299,6 +299,31 @@ function payActors(){
 }
 payActors();
 
+//Exercise 6 - Rental modification
+function rentalModif(){
+    for(var i = 0; i < rentals.length;i++){
+        for(var j = 0; j < rentalModifications.length;j++){
+            if(rentals[i].id == rentalModifications[j].rentalId){
+                switch(j){
+                    case 0:
+                    rentals[i].returnDate = rentalModifications[j].returnDate;
+                    rentals[i].distance = rentalModifications[j].distance;
+                    break;
+                    case 1:
+                    rentals[i].pickupDate = rentalModifications[j].pickupDate;
+                    break;
+                }
+            }
+        }
+    }
+    rentalPrice1();
+    rentalPrice2();
+    commissionPrice();
+    optionDeductible();
+    payActors();
+}
+rentalModif();
+
 //console.log(cars);
 //console.log(rentals);
 console.log(actors);
