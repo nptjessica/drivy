@@ -165,7 +165,7 @@ var rentalModifications = [{
   'pickupDate': '2015-12-05'
 }];
 
-//Exercice 1 - Euro-Kilometers
+//Exercise 1 - Euro-Kilometers
 function rentalPrice1(){
     for(var i=0; i< rentals.length;i++){
         //convert json data into javascript date before manipulating it
@@ -181,7 +181,7 @@ function rentalPrice1(){
 }
 rentalPrice1();
 
-//Exercice 2 - Drive more, pay less
+//Exercise 2 - Drive more, pay less
 function rentalPrice2(){
     for(var i=0; i< rentals.length;i++){
         //convert json data into javascript date before manipulating it
@@ -214,14 +214,14 @@ function rentalPrice2(){
 }
 rentalPrice2();
 
-//Exercice 3 - Give me all your money
+//Exercise 3 - Give me all your money
 function commissionPrice(){
     for(var i = 0; i < rentals.length; i++){
         //calculate commissions
         //Drivy take a 30% commission on the rental price
         var totalCommission = 0.3 * rentals[i].price;
 
-        //commission is split into: insurance, roadside assisntance and drivy
+        //commission is split into: insurance, roadside assistance and drivy
         //insurance has half of commission
         rentals[i].commission.insurance = totalCommission/2;
 
@@ -239,7 +239,7 @@ function commissionPrice(){
 commissionPrice();
 
 
-//Exercice 4 - The famous deductible
+//Exercise 4 - The famous deductible
 function optionDeductible(){
     for(var i = 0; i < rentals.length; i++){
         //convert json data into javascript date before manipulating it
@@ -267,7 +267,39 @@ function optionDeductible(){
 }
 optionDeductible();
 
+//Exercise 5 - Pay the actors
+function payActors(){
+    for(var i = 0; i < actors.length; i++){
+        for(var j = 0; j < actors[i].payment.length; j++){
+            switch(j){
+                case 0:
+                    //match up actors with their debit/credit amount of money
+                    //the driver must pay the rental price and the (optional) deductible reduction
+                    actors[i].payment[j].amount = rentals[i].price;
+                    break;
+                case 1:
+                    //the owner receives the rental price minus the commission
+                    actors[i].payment[j].amount = rentals[i].price - (rentals[i].commission.insurance + rentals[i].commission.assistance + rentals[i].commission.drivy);
+                    break;
+                case 2:
+                    //the insurance receives its part of the commission
+                    actors[i].payment[j].amount = rentals[i].commission.insurance;
+                    break;
+                case 3:
+                    //the assistance receives its part of the commission
+                    actors[i].payment[j].amount = rentals[i].commission.assistance;
+                    break;
+                case 4:
+                    //drivy receives its part of the commission, plus the deductible reduction
+                    actors[i].payment[j].amount = rentals[i].commission.drivy;
+                    break;
+            }
+        }
+    }
+}
+payActors();
+
 //console.log(cars);
-console.log(rentals);
-//console.log(actors);
+//console.log(rentals);
+console.log(actors);
 //console.log(rentalModifications);
