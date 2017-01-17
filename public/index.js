@@ -169,17 +169,17 @@ var rentalModifications = [{
 function rentalPrice1(){
     for(var i=0; i< rentals.length;i++){
         //convert json data into javascript date before manipulating it
-        var pickupDate = new Date(rentals[i].pickupDate);                                       //rentals[i].pickupDate == rentals[i]['pickupDate']
+        var pickupDate = new Date(rentals[i].pickupDate);   //rentals[i].pickupDate == rentals[i]['pickupDate']
         var returnDate = new Date(rentals[i].returnDate);
 
         //calculate the rental price
-        var time = (returnDate.getDate() - pickupDate.getDate() + 1) * cars[i].pricePerDay;     //getDate() method return the day of the month
+        var time = (returnDate.getDate() - pickupDate.getDate() + 1) * cars[i].pricePerDay; //getDate() method return the day of the month
         var distance = rentals[i].distance * cars[i].pricePerKm;
         var rentalPrice = time + distance;
         rentals[i].price = rentalPrice;
     }
 }
-//rentalPrice1();
+rentalPrice1();
 
 //Exercice 2 - Drive more, pay less
 function rentalPrice2(){
@@ -190,7 +190,7 @@ function rentalPrice2(){
 
         //calculate the rental price
         //now, it depends on the number of rental days
-        var rentalTime = (returnDate.getDate() - pickupDate.getDate() + 1);
+        var rentalTime = (returnDate.getDate() - pickupDate.getDate() + 1); //getDate() method return the day of the month
         //price per day decreases by 10% after 1 day
         if(rentalTime>=1 && rentalTime<4){
             var newPricePerDay =  (1 - 0.10) * cars[i].pricePerDay;
@@ -213,6 +213,30 @@ function rentalPrice2(){
     }
 }
 rentalPrice2();
+
+//Exercice 3 - Give me all your money
+function commissionPrice(){
+    for(var i = 0; i < rentals.length; i++){
+        //calculate commission
+        //Drivy take a 30% commission on the rental price
+        var totalCommission = 0.3 * rentals[i].price;
+
+        //commission is split into: insurance, roadside assisntance and drivy
+        //insurance is half of commission
+        rentals[i].commission.insurance = totalCommission/2;
+
+        //roadside assistance is 1€ per day
+        //convert json data into javascript date before manipulating it
+        var pickupDate = new Date(rentals[i].pickupDate);
+        var returnDate = new Date(rentals[i].returnDate);
+        var rentalTime = (returnDate.getDate() - pickupDate.getDate() + 1); //getDate() method return the day of the month
+        rentals[i].commission.assistance = rentalTime;
+
+        //drivy is the rest of the commission
+        rentals[i].commission.drivy = totalCommission - (rentals[i].commission.insurance + rentals[i].commission.assistance);
+    }
+}
+commissionPrice();
 
 //console.log(cars);
 console.log(rentals);
